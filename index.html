@@ -3,27 +3,39 @@
     <title>Weather API</title>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script>
-      $(document).ready(function(){
           var state = prompt("What state do you want to find out about the weather in?");
           var city = prompt("How about a city?");
-          $.getJSON("http://cooper-union-weather-proxy.herokuapp.com/weather/" + state + "/" + city, function(response){
+      $.getJSON("http://cooper-union-weather-proxy.herokuapp.com/weather/" + state + "/" + city, function(response){
             console.log(response);
           //example of outputting the current temp
           var currentTemp = response.current_observation.feelslike_f;
-          if(currentTemp > 47) {
-            $("#temperature").append("It is warm out! ");
-          } else {
-            $("#temperature").append("It is cold out! ");
-          }
-          $("#temperature").append(response.current_observation.feelslike_f + " degrees f");
+          var obsTime = response.current_observation.observation_time;
+          $("#temperature").append(currentTemp + " degrees Farenheit<br />(" + obsTime + ")");
           //create image tag
-          var imageTag = '<img src="'+response.current_observation.icon_url+'" />';
+          var imageTag = response.current_observation.icon_url;
+
           //append image tag to #temperature
-          $('#temperature').append(imageTag);
+          //$('#temperature').append(imageTag);
+
+          $("body").css("background-image", 'url(' + imageTag + ')');
       });
     </script>
     <style>
-
+      body{
+        /*background-size: contain;*/
+        background-repeat: repeat;
+      }
+      div{
+        font-size: 30px;
+        color: white;
+        display: block;
+        width: 45%;
+        margin: auto;
+        text-align: center;
+        margin-top: 15%;
+        background-color: black;
+        /*border: solid black 1px;*/
+      }
     </style>
   </head>
   <body>
